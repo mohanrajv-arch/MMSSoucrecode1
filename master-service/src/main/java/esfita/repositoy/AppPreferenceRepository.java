@@ -1,0 +1,20 @@
+package esfita.repositoy;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import esfita.entity.AppPreference;
+
+@Repository
+public interface AppPreferenceRepository extends JpaRepository<AppPreference, Integer> {
+	@Query(value = "SELECT * FROM dbo.APP_PREFERENCES ORDER BY AP_APP_PREFERENCES_PK DESC LIMIT 1", nativeQuery = true)
+	Optional<AppPreference> findTopByOrderByIdDesc();
+
+	@Query("SELECT m FROM AppPreference m WHERE m.id = :id")
+	AppPreference findOne(@Param("id") int id);
+
+}

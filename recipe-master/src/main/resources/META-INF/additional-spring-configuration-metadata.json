@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "eureka.client.service-url.defaultZone",
+    "type": "java.lang.String",
+    "description": "A description for 'eureka.client.service-url.defaultZone'"
+  },
+  {
+    "name": "activiti.database-schema",
+    "type": "java.lang.String",
+    "description": "A description for 'activiti.database-schema'"
+  },
+  {
+    "name": "otel.exporter.otlp.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'otel.exporter.otlp.endpoint'"
+  },
+  {
+    "name": "eureka.client.service-url.defaultZone",
+    "type": "java.lang.String",
+    "description": "A description for 'eureka.client.service-url.defaultZone'"
+  }
+]}

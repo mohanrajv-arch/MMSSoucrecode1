@@ -1,0 +1,55 @@
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: login-service-mms
+            uri: lb://LOGIN-SERVICE-MMS
+            predicates:
+              - Path=/login-service-mms/auth/**
+            filters:
+              - StripPrefix=1
+
+          - id: master-service
+            uri: lb://MASTER-SERVICE
+            predicates:
+              - Path=/master-service/**
+            filters:
+              - StripPrefix=1
+              - AddRequestHeader=X-CF-Forwarded-Url,{forwarded_url}
+              - AddRequestHeader=X-CF-Proxy-Signature,{proxy_signature}
+              - AddRequestHeader=Forwarded,{forwarded}
+
+          - id: menu-creation-service
+            uri: lb://MENU-CREATION-SERVICE
+            predicates:
+              - Path=/menu-creation-service/**
+            filters:
+              - StripPrefix=1
+
+          - id: meal-set-template-services
+            uri: lb://MEAL-SET-TEMPLATE-SERVICES
+            predicates:
+              - Path=/meal-set-template-services/**
+            filters:
+              - StripPrefix=1
+
+          - id: recipe-master
+            uri: lb://RECIPE-MASTER
+            predicates:
+              - Path=/recipe-master/**
+            filters:
+              - StripPrefix=1
+              - AddRequestHeader=X-CF-Forwarded-Url,{forwarded_url}
+              - AddRequestHeader=X-CF-Proxy-Signature,{proxy_signature}
+              - AddRequestHeader=Forwarded,{forwarded}
+
+          - id: issue-menu-mms
+            uri: lb://ISSUE-MENU-MMS
+            predicates:
+              - Path=/issue-menu-mms/**
+            filters:
+              - StripPrefix=1
+
+  codec:
+    max-in-memory-size: 20MB
