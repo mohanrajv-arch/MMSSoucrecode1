@@ -1,20 +1,26 @@
+# Use latest stable Node (supports React 19 well)
 FROM node:20-alpine
 
+# Set working directory
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+# Copy dependency files first (better Docker cache)
+COPY package.json package-lock.json ./
 
+# Install dependencies (React 19 workaround)
+RUN npm install --legacy-peer-deps
+
+# Copy project files
 COPY . .
+
+# Build React app
 RUN npm run build
 
-# Install nginx
-RUN apk add --no-cache nginx
+# Install serve to run production build
+RUN npm install -g serve
 
-# Copy build to nginx folder
-RUN rm -rf /usr/share/nginx/html/*
-RUN cp -r build/* /usr/share/nginx/html/
+# Expose port
+EXPOSE 3000
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Run app
+CMD ["serve", "-s", "build", "-l", "3000"]
