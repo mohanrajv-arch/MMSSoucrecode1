@@ -1,11 +1,20 @@
-FROM node:20-alpine AS build  # Change from node:18-alpine
+FROM node:20-alpine
+
 WORKDIR /app
+
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install
+
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+# Install nginx
+RUN apk add --no-cache nginx
+
+# Copy build to nginx folder
+RUN rm -rf /usr/share/nginx/html/*
+RUN cp -r build/* /usr/share/nginx/html/
+
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
